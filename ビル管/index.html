@@ -1,4 +1,4 @@
-<link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png"><link rel="apple-touch-icon" href="../apple-touch-icon.png"><title>ビル管合格道場</title>
+<link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png"><link rel="apple-touch-icon" href="../apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="canonical" href="https://yukkori-0402.github.io/birumen-dojo/ビル管/"><meta name="description" content="建築物環境衛生管理技術者(ビル管理士)の過去問1,789問(10年分)を無料で練習。科目別練習・模擬試験・合格予測つき。"><meta property="og:type" content="website"><meta property="og:site_name" content="ビルメン資格道場"><meta property="og:title" content="ビル管合格道場"><meta property="og:description" content="建築物環境衛生管理技術者(ビル管理士)の過去問1,789問(10年分)を無料で練習。科目別練習・模擬試験・合格予測つき。"><meta property="og:url" content="https://yukkori-0402.github.io/birumen-dojo/ビル管/"><meta property="og:image" content="https://yukkori-0402.github.io/birumen-dojo/ogp/kan.png"><meta property="og:locale" content="ja_JP"><meta name="twitter:card" content="summary_large_image"><title>ビル管合格道場</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -291,7 +291,7 @@ function home(){
   <section class="card books"><span class="label">作者の本(Kindle)</span>
    <a class="book" href="https://www.amazon.co.jp/dp/B0HN65Y84V" target="_blank" rel="noopener"><b>新人ビルメンの教科書</b><small>現場で最初に知っておきたいことをまとめた実用編</small></a>
    <a class="book" href="https://www.amazon.co.jp/dp/B0HMXYLK1D" target="_blank" rel="noopener"><b>ビルメン、楽じゃなかった。</b><small>現場12年のリアルを書いたエッセイ</small></a></section>
-  </div><div class="foot">作:ゆっぴー(現場12年のビルメン)・<a href="https://x.com/yukkori0402" target="_blank" rel="noopener">X @yukkori0402</a><br>出典:建築物環境衛生管理技術者試験 過去問題(公益財団法人 日本建築衛生管理教育センター)<br>権利者の方からご連絡をいただいた場合は、すぐに公開を取りやめます。</div>`;
+  </div><div class="foot">作:ゆっぴー(現場12年のビルメン)・<a href="https://x.com/yukkori0402" target="_blank" rel="noopener">X @yukkori0402</a><br>出典:建築物環境衛生管理技術者試験 過去問題(公益財団法人 日本建築衛生管理教育センター)<br><a href="https://docs.google.com/forms/d/e/1FAIpQLSe276M-LG0Cp4LfWRQjniNyPuPMMWwof0zu7qpM41ThlVlHqQ/viewform" target="_blank" rel="noopener">間違いの報告・ご意見はこちら</a><br>権利者の方からご連絡をいただいた場合は、すぐに公開を取りやめます。</div>`;
   $.querySelectorAll('.skill').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;practice(pick(Q.filter(x=>x.s===i),10),SUBJ[i][1])});
   $.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>({mock:mockMenu,subj:subjMenu,weak:()=>practice(pick(Q.filter(x=>ST[x.id]&&ST[x.id][2]===0),10),'苦手つぶし'),rand:()=>practice(pick(Q,10),'今日の10問'),reset:resetMenu})[b.dataset.m]());
   window.scrollTo(0,0);
