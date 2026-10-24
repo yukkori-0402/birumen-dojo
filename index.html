@@ -1,0 +1,316 @@
+<title>ビルメン資格道場</title><meta name="description" content="電工二種・ボイラー2級・ビル管理士・電験三種の過去問を、スマホで無料で練習できるアプリ。現場12年のビルメンが作りました。">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+/* 中央監視盤アーケード:夜の監視室の盤面。ランプ・LED表示・注意テープで、ビルメンの現場をゲームにする(ひとつの世界観に決めた暗い配色) */
+:root{
+  color-scheme:dark;
+  --bg:#0b1322; --panel:#132038; --panel2:#1a2a47; --line:#2b4068; --ink:#eef3ff; --sub:#9db0d0;
+  --yellow:#ffd21f; --yellow-ink:#16120a; --green:#35e07a; --red:#ff5468; --amber:#ff9d2e; --cyan:#45d3ff; --violet:#c79bff;
+  --glow-g:0 0 10px #35e07a99; --glow-r:0 0 10px #ff546899; --glow-y:0 0 14px #ffd21f88;
+  --f-disp:"Dela Gothic One","Zen Kaku Gothic New","Hiragino Sans",sans-serif;
+  --f-led:"DotGothic16","Zen Kaku Gothic New",monospace;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100%;background:radial-gradient(1200px 500px at 50% -120px,#1d3563 0,transparent 70%),repeating-linear-gradient(0deg,#ffffff05 0 1px,transparent 1px 4px),var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7}
+.tape{height:14px;background:repeating-linear-gradient(-45deg,var(--yellow) 0 14px,#121212 14px 28px);box-shadow:0 2px 0 #0006}
+.wrap{max-width:600px;margin:0 auto;padding-block:18px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,.disp{font-family:var(--f-disp);font-weight:400;margin:0;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.led{font-family:var(--f-led);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.lbl{font-family:var(--f-led);font-size:12px;letter-spacing:.18em;color:var(--sub)}
+
+/* ホーム */
+.hero{position:relative;padding:22px 18px 20px;margin:6px 0 20px;border:2px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--panel2),var(--panel));overflow:hidden}
+.hero::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,#ffd21f33,transparent 70%)}
+.hero .lbl{display:flex;align-items:center;gap:8px}
+.lamp{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:var(--glow-g)}
+.hero h1{font-size:clamp(34px,10vw,52px);line-height:1.15;margin:8px 0 6px;color:var(--yellow);text-shadow:0 3px 0 #a37e00,0 0 22px #ffd21f55}
+.hero h1 small{display:block;font-size:.42em;color:var(--ink);text-shadow:none;letter-spacing:.08em}
+.hero p{margin:0;color:var(--sub);font-size:14.5px}
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 10px}
+.sec h2{font-size:20px}
+.stages{display:grid;gap:12px}
+.stage{--c:var(--cyan);position:relative;display:grid;grid-template-columns:62px 1fr auto;gap:14px;align-items:center;width:100%;padding:14px 14px 14px 12px;text-align:left;border:2px solid var(--line);border-radius:16px;background:var(--panel);box-shadow:0 4px 0 #050a14;transition:transform .12s,border-color .12s}
+.stage:hover{border-color:var(--c)}
+.stage:active{transform:translateY(3px);box-shadow:0 1px 0 #050a14}
+.stage .ic{width:62px;height:62px;border-radius:14px;display:grid;place-items:center;font-family:var(--f-disp);font-size:26px;color:#0b1322;background:var(--c);box-shadow:inset 0 -5px 0 #0003,0 0 18px color-mix(in srgb,var(--c) 45%,transparent)}
+.stage b{display:block;font-size:17.5px;line-height:1.35}
+.stage small{display:block;color:var(--sub);font-size:13px;line-height:1.5;margin-top:2px}
+.stage .hi{min-width:64px;text-align:center;padding:6px 8px;border-radius:10px;background:#050b16;border:1px solid var(--line)}
+.stage .hi span{display:block;font-size:10.5px;color:var(--sub);letter-spacing:.1em}
+.stage .hi strong{display:block;font-family:var(--f-led);font-size:20px;font-weight:400;color:var(--c);text-shadow:0 0 8px color-mix(in srgb,var(--c) 60%,transparent)}
+.diff{display:block;margin-top:4px;font-size:12px;color:var(--sub);line-height:1.5}
+.stars{color:var(--c);letter-spacing:1px;margin-right:6px;font-size:13px}.stars i{font-style:normal;color:#2b4068}
+.origin{margin:-2px 0 12px;padding:8px 12px;border-radius:10px;border:1px dashed var(--line);font-size:12.5px;color:var(--sub);line-height:1.6}
+.stage .cnt{color:var(--c);font-weight:700;margin-top:0}
+.stage.mix{--c:var(--violet);background:linear-gradient(90deg,#251c3a,var(--panel) 60%)}
+.apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.app{--c:var(--cyan);display:grid;gap:4px;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--panel);color:var(--ink);text-decoration:none;min-width:0;transition:border-color .12s,transform .12s}
+.app:hover{border-color:var(--c);transform:translateY(-2px)}
+.app b{font-size:15.5px;line-height:1.35}
+.app .n{font-family:var(--f-led);font-size:22px;color:var(--c);line-height:1.2}
+.app small{color:var(--sub);font-size:12.5px;line-height:1.5}
+.app .go{font-size:12.5px;font-weight:700;color:var(--c)}
+.note{font-size:12.5px;color:var(--sub);margin-top:18px;line-height:1.65}
+.foot{text-align:center;font-size:12px;color:var(--sub);margin-top:26px}
+.mt{margin-top:28px}
+
+/* 問題 */
+.hud{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-bottom:12px}
+.quit{background:none;border:1px solid var(--line);border-radius:10px;color:var(--sub);font-size:13px;padding:6px 10px}
+.score{justify-self:end;padding:4px 12px;border-radius:10px;background:#050b16;border:1px solid var(--line);font-size:20px;color:var(--yellow);text-shadow:var(--glow-y)}
+.score span{font-size:11px;color:var(--sub);margin-right:6px;letter-spacing:.12em;text-shadow:none}
+.combo{justify-self:center;font-family:var(--f-disp);font-size:15px;color:var(--amber);opacity:0;transform:scale(.8);transition:.15s}
+.combo.on{opacity:1;transform:none;text-shadow:0 0 12px #ff9d2e99}
+.combo.fire{color:var(--yellow)}
+.lamps{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:16px;padding:10px;border-radius:12px;background:#050b16;border:1px solid var(--line)}
+.lamps i{aspect-ratio:1;max-width:100%;border-radius:50%;background:#1b2740;box-shadow:inset 0 2px 3px #0008}
+.lamps i.ok{background:var(--green);box-shadow:var(--glow-g)}
+.lamps i.ng{background:var(--red);box-shadow:var(--glow-r)}
+.lamps i.now{background:#1b2740;box-shadow:inset 0 0 0 3px var(--yellow)}
+.qcard{position:relative;padding:20px 18px 18px;border-radius:18px;border:2px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel))}
+.qno{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.qno .disp{font-size:20px}
+.tag{font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;color:#0b1322;background:var(--c,var(--cyan))}
+.q{font-size:18px;font-weight:700;line-height:1.65;margin:0 0 16px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#0e1930;font-size:16px;font-weight:500;min-height:56px;box-shadow:0 3px 0 #050a14;transition:transform .08s,border-color .12s}
+.opt:hover:not(:disabled){border-color:var(--cyan)}
+.opt:active:not(:disabled){transform:translateY(2px);box-shadow:none}
+.opt .k{flex:none;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);font-family:var(--f-led);font-size:16px}
+.opt.ok{border-color:var(--green);background:#0f2f22;box-shadow:var(--glow-g)}.opt.ok .k{background:var(--green);color:#0b1322;border-color:var(--green)}
+.opt.ng{border-color:var(--red);background:#331520}.opt.ng .k{background:var(--red);color:#fff;border-color:var(--red)}
+.opt:disabled{cursor:default}.opt.dim{opacity:.45}
+.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+.flash{position:fixed;inset:0;pointer-events:none;z-index:20;animation:flash .45s ease-out forwards}
+.flash.ok{background:radial-gradient(circle,#35e07a33,transparent 70%)}.flash.ng{background:radial-gradient(circle,#ff546833,transparent 70%)}
+@keyframes flash{from{opacity:1}to{opacity:0}}
+.plus{position:absolute;right:16px;top:14px;font-family:var(--f-led);font-size:22px;color:var(--green);text-shadow:var(--glow-g);animation:up .9s ease-out forwards;pointer-events:none}
+@keyframes up{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-36px)}}
+.exp{margin-top:16px;padding:14px 16px;border-radius:14px;background:#050b16;border:1px solid var(--line);font-size:15px}
+.exp .r{font-family:var(--f-disp);font-size:22px;margin-bottom:4px}
+.exp .r.ok{color:var(--green);text-shadow:var(--glow-g)}.exp .r.ng{color:var(--red);text-shadow:var(--glow-r)}
+.next{display:block;width:100%;margin-top:14px;padding:15px;border:none;border-radius:14px;background:var(--yellow);color:var(--yellow-ink);font-family:var(--f-disp);font-size:18px;box-shadow:0 4px 0 #a37e00}
+.next:active{transform:translateY(3px);box-shadow:0 1px 0 #a37e00}
+
+/* 結果 */
+.result{position:relative;padding:24px 18px;border-radius:18px;border:2px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));text-align:center;overflow:hidden}
+.stamp{width:156px;height:156px;margin:8px auto 12px;border-radius:50%;border:6px double var(--red);color:var(--red);display:grid;place-content:center;transform:rotate(-8deg);animation:stamp .4s cubic-bezier(.2,1.6,.4,1);text-shadow:0 0 12px #ff546866}
+.stamp.good{border-color:var(--yellow);color:var(--yellow);text-shadow:var(--glow-y)}
+.stamp div{font-family:var(--f-disp);font-size:46px;line-height:1}
+.stamp small{display:block;font-size:13px;font-weight:700;letter-spacing:.1em;margin-top:4px}
+@keyframes stamp{from{transform:rotate(-8deg) scale(2);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:1}}
+.rank{font-size:26px;margin-bottom:4px}
+.rank-sub{color:var(--sub);margin:0 0 14px;font-size:14px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{padding:13px;border-radius:14px;border:2px solid var(--line);background:#0e1930;font-weight:700;text-decoration:none;color:var(--ink);text-align:center;font-size:15px}
+.btn.x{background:var(--ink);color:#0b1322;border-color:var(--ink)}
+.btn.wide{width:100%;margin-top:10px}
+.miss{margin-top:20px;text-align:left}
+.miss h2{font-size:17px;margin-bottom:8px;color:var(--amber)}
+.miss ul{padding-left:1.2em;margin:0}
+.miss li{margin-bottom:10px;font-size:14.5px}
+.miss li b{display:block}
+.book{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:16px;margin-top:16px;border-radius:16px;border:2px solid var(--line);background:var(--panel);text-align:left;text-decoration:none;color:var(--ink)}
+.book .cv{width:58px;height:82px;border-radius:4px;background:linear-gradient(160deg,var(--yellow) 0 48%,#1f3550 48%);display:grid;place-items:end center;padding-bottom:6px;color:#fff;font-size:10px;font-weight:900}
+.book b{display:block;font-size:15.5px;line-height:1.45}
+.book small{color:var(--sub);font-size:13px;line-height:1.5;display:block;margin-top:3px}
+.book .go{font-size:13px;font-weight:700;color:var(--cyan);margin-top:4px;display:block}
+canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
+.pop{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:none;opacity:1}}
+@media (max-width:420px){.apps{grid-template-columns:1fr}.stage{grid-template-columns:54px 1fr auto;gap:12px}.stage .ic{width:54px;height:54px;font-size:22px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="tape"></div>
+<main class="wrap" id="app"></main>
+<canvas id="fx" hidden></canvas>
+
+<script>
+// 問題データ:[問題, [正解, まちがい, まちがい, まちがい], 解説]。最初の選択肢が正解(表示時に並べかえる)
+const COURSES={
+ den:{name:'第二種電気工事士',short:'電工二種',ic:'電',c:'var(--cyan)',lv:2,rate:'学科 約57%・技能 約72%(2025年度)',desc:'法令・接地・配線の基本',qs:[
+  ['交流で「低圧」とされる電圧の範囲は?',['600V以下','300V以下','750V以下','7,000V以下'],'交流は600V以下、直流は750V以下が低圧です。'],
+  ['一般の住宅で使われる「単相3線式」でとり出せる電圧は?',['100Vと200V','100Vだけ','200Vだけ','100Vと400V'],'電線3本のうち、真ん中の線と外側の線で100V、外側どうしで200Vがとれます。'],
+  ['対地電圧150V以下の低圧電路で、絶縁抵抗の最低値は?',['0.1MΩ','0.2MΩ','0.4MΩ','1MΩ'],'150V以下は0.1MΩ、300V以下は0.2MΩ、300V超は0.4MΩ以上です。'],
+  ['使用電圧が300Vを超える低圧電路の絶縁抵抗の最低値は?',['0.4MΩ','0.1MΩ','0.2MΩ','0.3MΩ'],'電圧が高いほど、求められる絶縁抵抗も大きくなります。'],
+  ['使用電圧300V以下の機械の金属の外箱にする接地工事は?',['D種接地工事','A種接地工事','B種接地工事','C種接地工事'],'300V以下はD種、300Vを超える低圧はC種です。'],
+  ['D種接地工事の接地抵抗値は、原則いくら以下?',['100Ω','10Ω','500Ω','1,000Ω'],'0.5秒以内に電気を止める漏電遮断器があれば、500Ω以下まで認められます。'],
+  ['20Aの配線用遮断器の分岐回路で使う電線(銅線)の太さは?',['直径1.6mm以上','直径1.2mm以上','直径2.6mm以上','直径3.2mm以上'],'20Aの遮断器には1.6mm以上の電線、20A以下のコンセントを組み合わせます。'],
+  ['30Aの配線用遮断器の分岐回路につなげるコンセントは?',['20A以上30A以下','15Aのみ','15A以上20A以下','30A以上50A以下'],'30Aの回路は電線2.6mm以上、コンセントは20A以上30A以下です。'],
+  ['10Ωの抵抗に100Vをかけると、流れる電流は?',['10A','1A','100A','1,000A'],'オームの法則で、電流=電圧÷抵抗。100÷10=10Aです。'],
+  ['10Ωの抵抗を2本、並列につなぐと合わせた抵抗は?',['5Ω','10Ω','20Ω','2.5Ω'],'同じ抵抗を2本並列にすると半分になります。直列なら足して20Ωです。'],
+  ['電線どうしをつなぐとき、引張強さを何%以上減らしてはいけない?',['20%','5%','10%','50%'],'つないだ部分は、電気抵抗を増やさず、引張強さを20%以上減らさないことが決まりです。'],
+  ['三相誘導電動機の回る向きを逆にする方法は?',['3本の線のうち2本を入れかえる','3本すべてを入れかえる','電圧を下げる','コンデンサを外す'],'どれか2本を入れかえると、回る向きが逆になります。'],
+  ['「VVFケーブル」の正式な呼び名は?',['600Vビニル絶縁ビニルシースケーブル平形','600Vビニル絶縁電線','600V架橋ポリエチレン絶縁ケーブル','600Vゴム絶縁電線'],'住宅の屋内配線でいちばんよく使われる、平たい形のケーブルです。'],
+  ['第二種電気工事士の免状を交付するのは?',['都道府県知事','経済産業大臣','市町村長','電力会社'],'電気工事士法で、第一種・第二種とも都道府県知事が交付すると決められています。'],
+  ['絶縁抵抗を測るときに使う測定器は?',['絶縁抵抗計(メガー)','接地抵抗計(アーステスタ)','クランプメータ','検相器'],'接地抵抗計は接地の抵抗、検相器は三相の相の順番を調べる道具です。'],
+ ]},
+ boiler:{name:'2級ボイラー技士',short:'ボイラー2級',ic:'缶',c:'var(--amber)',lv:2,rate:'約54%(2024年度)',desc:'構造・取扱い・燃焼・法令',qs:[
+  ['燃料を燃やすときの「空気比」の求め方は?',['実際空気量÷理論空気量','理論空気量÷実際空気量','実際空気量−理論空気量','理論空気量×実際空気量'],'実際に送りこんだ空気が、理論上ちょうど必要な量の何倍かを表します。'],
+  ['管の壁などに、硬くこびりついた付着物を何という?',['スケール','スラッジ','すす','ダスト'],'底にたまる軟らかい沈殿物はスラッジ、燃焼ガス側につくのはすすです。'],
+  ['二色水面計で、水の部分は何色に見える?',['緑(または青)','赤','黄','白'],'水の部分は緑(青)、蒸気の部分は赤に見えます。'],
+  ['圧力計の目盛りの最大の値は、最高使用圧力の何倍にする?',['1.5倍以上3倍以下','1倍以上1.5倍以下','3倍以上5倍以下','ちょうど2倍'],'小さすぎると振り切れ、大きすぎると読みにくくなります。2026年4月の改正後も数値は同じです。'],
+  ['バーナが上下に2つあるとき、先に点火するのは?',['下のバーナ','上のバーナ','2つ同時','どちらでもよい'],'上から点火すると、下に燃え残りのガスがたまり、爆発するおそれがあります。'],
+  ['ボイラーを緊急停止するとき、最初にすることは?',['燃料を止める','主蒸気弁を閉じる','給水を止める','炉内を換気する'],'まず燃料を止め、炉内を換気し、主蒸気弁を閉じます。必要なら給水して水位を保ちます。'],
+  ['直列に2つある吹出し弁を開ける順番は?',['急開弁→漸開弁','漸開弁→急開弁','2つ同時','どちらが先でもよい'],'閉じるときは逆に、漸開弁を先に閉じてから急開弁を閉じます。'],
+  ['安全弁を1個にしてよいのは、伝熱面積が何㎡以下のボイラー?',['50㎡以下','10㎡以下','25㎡以下','100㎡以下'],'安全弁は原則2個以上です。'],
+  ['ボイラー検査証の有効期間は、原則何年?',['1年','6か月','2年','3年'],'有効期間を更新するには、性能検査を受けます。'],
+  ['ボイラー取扱技能講習の修了者が扱える温水ボイラーは、伝熱面積何㎡以下?',['14㎡以下','3㎡以下','25㎡以下','50㎡以下'],'これを超えると、原則としてボイラー技士が必要です。'],
+  ['被覆していないボイラーの外壁から、側部の壁や配管までの距離は?',['0.45m以上','0.15m以上','1.2m以上','2m以上'],'胴の内径500mm以下かつ長さ1,000mm以下の小さなボイラーなら0.3m以上です。'],
+  ['使うのをやめたボイラーを、もう一度設置するとき最初に受ける検査は?',['使用検査','落成検査','性能検査','構造検査'],'使用検査に合格してから、設置届を出して落成検査を受けます。'],
+  ['排ガスの熱で「給水」を温める装置は?',['節炭器(エコノマイザ)','空気予熱器','過熱器','蒸気トラップ'],'燃焼用の空気を温めるのは空気予熱器です。'],
+  ['灯油と重油で、引火点が低いのは?',['灯油','重油','同じ','比べられない'],'灯油のほうが、低い温度で火がつく蒸気を出します。'],
+  ['自然循環式ボイラーで、圧力が高くなると水を循環させる力は?',['弱くなる','強くなる','変わらない','ゼロになる'],'高圧ほど蒸気と水の密度の差が小さくなるためです。高圧では強制循環式などを使います。'],
+  ['蒸気トラップの役割は?',['ドレン(凝縮した水)を外へ出す','蒸気の圧力を上げる','燃料を霧にする','ボイラーに水を足す'],'配管にたまった水だけを出し、蒸気は逃がしません。'],
+ ]},
+ kan:{name:'ビル管理士(建築物環境衛生管理技術者)',short:'ビル管',ic:'管',c:'var(--green)',lv:3,rate:'約31%(2025年度。例年は20%台)',desc:'空気環境・水・清掃の基準',qs:[
+  ['特定建築物の空気の二酸化炭素の基準は?',['1,000ppm以下','100ppm以下','5,000ppm以下','10ppm以下'],'0.1%(1,000ppm)以下が基準です。人が多い部屋ほど上がりやすくなります。'],
+  ['一酸化炭素の基準は?(2022年4月から)',['6ppm以下','10ppm以下','50ppm以下','1,000ppm以下'],'2022年4月に10ppm以下から6ppm以下へ厳しくなりました。'],
+  ['室内の温度の基準は?(2022年4月から)',['18℃以上28℃以下','17℃以上28℃以下','20℃以上26℃以下','15℃以上30℃以下'],'下限が17℃から18℃に変わりました。'],
+  ['相対湿度の基準は?',['40%以上70%以下','30%以上60%以下','50%以上80%以下','20%以上90%以下'],'冬の暖房中は40%を下回りやすいので注意します。'],
+  ['室内の気流の基準は?',['0.5m/秒以下','0.1m/秒以下','1.0m/秒以下','2.0m/秒以下'],'風が強すぎると、寒く感じるなど不快の原因になります。'],
+  ['浮遊粉じんの量の基準は?',['0.15mg/m³以下','1.5mg/m³以下','0.015mg/m³以下','15mg/m³以下'],'空気1m³あたり0.15mg以下です。'],
+  ['ホルムアルデヒドの基準は?',['0.1mg/m³以下','1mg/m³以下','0.01mg/m³以下','10mg/m³以下'],'新しい建物や家具から出やすく、シックハウスの原因になる物質です。'],
+  ['事務所が特定建築物になる延べ面積は?',['3,000m²以上','1,000m²以上','5,000m²以上','8,000m²以上'],'事務所や店舗は3,000m²以上、学校は8,000m²以上です。'],
+  ['空気環境の測定は、どのくらいの間隔で行う?',['2か月以内ごとに1回','毎日1回','1か月以内ごとに1回','1年以内ごとに1回'],'2か月以内ごとに1回、決まった項目を測ります。'],
+  ['飲み水の給水栓で保つべき遊離残留塩素は?',['0.1mg/L以上','0.01mg/L以上','1mg/L以上','5mg/L以上'],'法令の書き方は「百万分の0.1以上」で、0.1mg/Lと同じです。結合残留塩素なら百万分の0.4以上です。'],
+  ['貯水槽(受水槽など)の清掃は?',['1年以内ごとに1回','1か月以内ごとに1回','6か月以内ごとに1回','3年以内ごとに1回'],'飲み水をためる槽は、1年以内ごとに1回清掃します。'],
+  ['排水槽など、排水に関する設備の掃除は?',['6か月以内ごとに1回','1か月以内ごとに1回','1年以内ごとに1回','2年以内ごとに1回'],'飲み水をためる貯水槽(1年以内ごと)より短い間隔です。'],
+  ['建物全体の大掃除は?',['6か月以内ごとに1回','毎月1回','1年以内ごとに1回','2年以内ごとに1回'],'日常の掃除とは別に、6か月以内ごとに1回行います。'],
+  ['ねずみや害虫の生息調査は?',['6か月以内ごとに1回','毎週1回','1年以内ごとに1回','3年以内ごとに1回'],'調査の結果に合わせて、必要な対策をします。'],
+  ['冷却塔や冷却水の汚れの点検は、使っている期間中どのくらいごと?',['1か月以内ごとに1回','1週間以内ごとに1回','6か月以内ごとに1回','1年以内ごとに1回'],'レジオネラ菌を防ぐためです。冷却塔などの清掃は1年以内ごとに1回です。'],
+  ['空気環境・給排水・清掃などの管理状況を書いた帳簿書類は、何年間保存する?',['5年間','1年間','3年間','10年間'],'施行規則で、維持管理の状況を書いた帳簿書類は5年間保存すると決められています。'],
+ ]},
+ denken:{name:'第三種電気主任技術者',short:'電験三種',ic:'験',c:'var(--yellow)',lv:5,rate:'約13%(2025年度・4科目合格)',desc:'理論・電力・機械の計算と基本',qs:[
+  ['100Vの電源に20Ωの抵抗をつなぐと、流れる電流は?',['5A','2A','20A','2,000A'],'オームの法則で、電流=電圧÷抵抗。100÷20=5Aです。'],
+  ['100Vで5Aが流れる電熱器の消費電力は?',['500W','20W','105W','50W'],'電力=電圧×電流。100×5=500Wです。'],
+  ['10Ωの抵抗に2Aを60秒流したときの発熱量は?',['2,400J','1,200J','40J','240J'],'ジュール熱は 電流²×抵抗×時間。2²×10×60=2,400Jです。'],
+  ['6Ωと3Ωの抵抗を並列につなぐと、合わせた抵抗は?',['2Ω','9Ω','4.5Ω','18Ω'],'並列は(6×3)÷(6+3)=2Ω。直列なら足して9Ωです。'],
+  ['周波数50Hzの交流の周期は?',['0.02秒','0.05秒','0.2秒','50秒'],'周期=1÷周波数。1÷50=0.02秒です。'],
+  ['三相のY結線で、相電圧が100Vのとき線間電圧は約何V?',['173V','100V','141V','300V'],'Y結線の線間電圧は相電圧の√3倍。100×1.732≒173Vです。'],
+  ['有効電力800W、皮相電力1,000V・Aのときの力率は?',['0.8','1.25','0.2','0.6'],'力率=有効電力÷皮相電力。800÷1,000=0.8です。'],
+  ['一次6,600V・二次110Vの理想変圧器の巻数比は?',['60','6','600','0.6'],'巻数比=一次電圧÷二次電圧。6,600÷110=60です。'],
+  ['6極・50Hzの誘導電動機の同期速度は?',['1,000min⁻¹','1,500min⁻¹','3,000min⁻¹','600min⁻¹'],'同期速度=120×周波数÷極数。120×50÷6=1,000min⁻¹です。'],
+  ['4極・60Hzの同期速度は?',['1,800min⁻¹','1,500min⁻¹','3,600min⁻¹','1,200min⁻¹'],'120×60÷4=1,800min⁻¹です。'],
+  ['誘導電動機をY-Δ始動すると、始動トルクは全電圧始動の何倍?',['1/3倍','1/√3倍','√3倍','3倍'],'巻線にかかる電圧が1/√3になり、トルクは電圧の2乗に比例するので1/3です。'],
+  ['単相変圧器2台のV結線で、2台分の容量に対する利用率は約何%?',['86.6%','57.7%','100%','66.7%'],'V結線の出力は1台の√3倍。√3÷2≒0.866です。'],
+  ['流量10m³/s・有効落差100m・総合効率80%の水力発電所の出力は?',['7,840kW','9,800kW','800kW','78,400kW'],'出力=9.8×流量×落差×効率。9.8×10×100×0.8=7,840kWです。'],
+  ['1,000kgの物を毎秒0.5mで持ち上げるのに必要な仕事率は?',['4,900W','500W','9,800W','2,000W'],'仕事率=質量×9.8×速さ。1,000×9.8×0.5=4,900Wです。'],
+  ['発電所の主変圧器の結線で、一般的なのは?',['発電機側Δ・系統側Y','発電機側Y・系統側Δ','両側ともΔ','両側ともY'],'高電圧の系統側をYにすると、中性点を接地できます。'],
+  ['電気が流れている変流器(CT)の二次側について、正しいのは?',['開放してはいけない','開放しても問題ない','必ず開放して点検する','ヒューズを入れて開放する'],'二次側を開くと高い電圧が出て危険です。計器を外すときは二次側を短絡します。'],
+  ['電験三種の試験科目は?',['理論・電力・機械・法規','理論・実技・法規・電力','電気・機械・建築・法規','理論と法規の2科目'],'この4科目すべてに合格する必要があります。'],
+ ]},
+};
+// 本格的な過去問アプリ(このフォルダの中のアプリへ進む)
+const APPS=[
+ {name:'電工二種 合格道場',href:'電工二種/index.html',n:'650問',d:'公式過去問13回・写真と配線図つき・全問解説',c:'var(--cyan)'},
+ {name:'ボイラー2級合格道場',href:'ボイラー2級/index.html',n:'280問',d:'公表問題7回分・全問解説',c:'var(--amber)'},
+ {name:'ビル管合格道場',href:'ビル管/index.html',n:'1,408問',d:'過去問8年分・模擬試験と合格予測',c:'var(--green)'},
+ {name:'電験三種 合格道場',href:'電験三種/index.html',n:'320問',d:'4科目×4回・本番形式で採点',c:'var(--yellow)'},
+];
+const RANKS=[[10,'名人ビルメン','満点です。現場で頼られる知識です。'],[8,'ベテランビルメン','あと少しで名人です。'],[6,'一人前ビルメン','合格ラインが見えてきました。'],[4,'新人ビルメン','解説を読んで、もう1回どうぞ。'],[0,'見習いビルメン','最初はみんなここからです。']];
+const BOOKS=[
+ {t:'新人ビルメンの教科書',s:'空調・給排水・電気・消防。設備ごとの見方と異常のサインを、現場12年の目線でまとめた実用編。',u:'https://www.amazon.co.jp/dp/B0HN65Y84V',v:'実用編'},
+ {t:'ビルメン、楽じゃなかった。',s:'「楽な仕事」と聞いて入った人に、現場の本当のところを。夜勤・呼び出し・資格のこと。',u:'https://www.amazon.co.jp/dp/B0HMXYLK1D',v:'体験編'}
+];
+const N=10, $=document.getElementById('app');
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let S=null;
+
+function home(){
+  const best=store.get('best')||{};
+  const row=(id,c,cls='')=>`<button class="stage ${cls}" data-c="${id}" style="--c:${c.c}"><span class="ic">${c.ic}</span><span><b>${c.short}</b><small>${c.desc}</small><small class="cnt">全${c.qs.length}問から${N}問</small>${c.lv?`<span class="diff"><span class="stars" aria-label="難易度${c.lv}(5段階)">${'★'.repeat(c.lv)}<i>${'★'.repeat(5-c.lv)}</i></span>合格率 ${c.rate}</span>`:''}</span><span class="hi"><span>自己ベスト</span><strong>${best[id]!=null?best[id]+'/'+N:'--'}</strong></span></button>`;
+  $.innerHTML=`<div class="pop">
+  <section class="hero"><span class="lbl"><i class="lamp"></i>4択 ・ 1回10問</span><h1><small>ビルメンの資格を、ゲームで</small>ビルメン資格道場</h1><p>4択10問で腕だめし。まちがえた問題は、あとで解説つきで見直せます。</p></section>
+  <div class="sec"><h2>資格を選んで挑戦</h2><span class="lbl">ランダムに10問</span></div>
+  <p class="origin">ここの問題は、作者がAI(Claude)を使って作ったオリジナル問題です。試験の過去問ではありません。</p>
+  <div class="stages">${Object.entries(COURSES).map(([id,c])=>row(id,c)).join('')}${row('mix',{ic:'混',c:'var(--violet)',short:'ごちゃまぜ',desc:'4つの資格からランダムに出題',qs:Object.values(COURSES).flatMap(c=>c.qs)},'mix')}</div>
+  <div class="sec mt"><h2>本格的に過去問を解く</h2><span class="lbl">過去問アプリ</span></div>
+  <div class="apps">${APPS.map(a=>`<a class="app" href="${a.href}" style="--c:${a.c}"><b>${a.name}</b><span class="n">${a.n}</span><small>${a.d}</small><span class="go">開く →</span></a>`).join('')}</div>
+  <p class="note">※ 難易度は、試験の合格率をもとにした目安です(5段階)。合格率は電気技術者試験センター、安全衛生技術試験協会、厚生労働省の公表値から計算しました。<br>※ ミニクイズの問題は、AI(Claude)を使って作ったオリジナル問題です。数値は、法令の原文(e-Gov法令検索)、経済産業省「電気設備の技術基準の解釈」、各試験の公式問題と正答で確かめています(2026年10月時点)。法令は改正されることがあるので、試験の前には最新の情報も確認してください。</p></div>
+  <div class="foot">作:ゆっぴー(現場12年のビルメン)・<a href="https://x.com/yukkori0402" target="_blank" rel="noopener">X @yukkori0402</a></div>`;
+  $.querySelectorAll('.stage').forEach(b=>b.onclick=()=>start(b.dataset.c));
+  window.scrollTo(0,0);
+}
+
+function start(id){
+  const tagged=([k,c])=>c.qs.map(q=>[...q,c.short,c.c]);
+  const pool=id==='mix'?Object.entries(COURSES).flatMap(tagged):tagged([id,COURSES[id]]);
+  S={id,qs:shuffle(pool).slice(0,N).map(([q,o,e,tag,c])=>({q,e,tag,c,a:o[0],o:shuffle(o)})),i:0,res:[],combo:0,maxCombo:0};
+  ask();
+}
+
+function hud(){
+  return `<div class="hud"><button class="quit" id="quit">← やめる</button><span class="combo${S.combo>=2?' on':''}${S.combo>=5?' fire':''}" id="combo">${S.combo>=2?S.combo+'連続!':''}</span><span class="score led">${S.i+1}/${N}問</span></div>
+  <div class="lamps">${S.qs.map((_,k)=>`<i class="${k<S.res.length?(S.res[k]?'ok':'ng'):k===S.i?'now':''}"></i>`).join('')}</div>`;
+}
+
+function ask(){
+  const Q=S.qs[S.i];
+  $.innerHTML=`${hud()}<div class="qcard pop" id="card"><div class="qno"><span class="disp">第${S.i+1}問</span><span class="tag" style="--c:${Q.c}">${Q.tag}</span></div>
+  <p class="q">${Q.q}</p><div class="opts">${Q.o.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${'ABCD'[k]}</span><span>${o}</span></button>`).join('')}</div><div id="after"></div></div>`;
+  document.getElementById('quit').onclick=home;
+  $.querySelectorAll('.opt').forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+  window.scrollTo(0,0);
+}
+
+function flash(kind){const f=document.createElement('div');f.className='flash '+kind;document.body.appendChild(f);setTimeout(()=>f.remove(),500);}
+
+function answer(k){
+  const Q=S.qs[S.i], ok=Q.o[k]===Q.a, bs=$.querySelectorAll('.opt'), card=document.getElementById('card');
+  bs.forEach((b,j)=>{b.disabled=true;if(Q.o[j]===Q.a)b.classList.add('ok');else if(j===k)b.classList.add('ng');else b.classList.add('dim')});
+  S.res.push(ok); S.combo=ok?S.combo+1:0; S.maxCombo=Math.max(S.maxCombo,S.combo);
+  if(ok){const p=document.createElement('span');p.className='plus';p.textContent='正解';card.appendChild(p);flash('ok');}
+  else{card.classList.add('shake');flash('ng');}
+  if(navigator.vibrate)try{navigator.vibrate(ok?30:[60,40,60])}catch(e){}
+  const cb=document.getElementById('combo');cb.className='combo'+(S.combo>=2?' on':'')+(S.combo>=5?' fire':'');cb.textContent=S.combo>=2?S.combo+'連続!':'';
+  const lamps=$.querySelectorAll('.lamps i');lamps[S.i].className=ok?'ok':'ng';
+  const last=S.i===N-1;
+  document.getElementById('after').innerHTML=`<div class="exp pop"><div class="r ${ok?'ok':'ng'}">${ok?'正解!':'ざんねん'}</div>${ok?'':'答え:<b>'+Q.a+'</b><br>'}${Q.e}</div><button class="next" id="next">${last?'結果を見る':'次の問題へ'}</button>`;
+  document.getElementById('next').onclick=()=>{S.i++;last?result():ask()};
+  document.getElementById('next').scrollIntoView({behavior:calm?'auto':'smooth',block:'nearest'});
+}
+
+function confetti(){
+  if(calm)return;
+  const cv=document.getElementById('fx'), x=cv.getContext('2d');cv.hidden=false;
+  const W=cv.width=innerWidth, H=cv.height=innerHeight, cols=['#ffd21f','#35e07a','#45d3ff','#ff9d2e','#ff5468'];
+  const ps=Array.from({length:120},()=>({x:Math.random()*W,y:-20-Math.random()*H*.5,vx:(Math.random()-.5)*2,vy:2+Math.random()*3,r:Math.random()*6.28,s:5+Math.random()*6,c:cols[Math.random()*5|0]}));
+  let t=0;(function f(){x.clearRect(0,0,W,H);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});if(++t<170)requestAnimationFrame(f);else{x.clearRect(0,0,W,H);cv.hidden=true}})();
+}
+
+function result(){
+  const score=S.res.filter(Boolean).length, r=RANKS.find(x=>score>=x[0]);
+  const best=store.get('best')||{}, isBest=best[S.id]==null||score>best[S.id];
+  if(isBest){best[S.id]=score;store.set('best',best)}
+  const cname=S.id==='mix'?'ごちゃまぜ':COURSES[S.id].short;
+  const miss=S.qs.filter((_,k)=>!S.res[k]);
+  const share='https://x.com/intent/post?text='+encodeURIComponent(`ビルメン資格道場【${cname}】で${N}問中${score}問正解!称号は「${r[1]}」でした。\n#ビルメン #資格勉強\n`)+'&url='+encodeURIComponent(location.href.startsWith('http')?location.href:'');
+  const book=BOOKS[S.id==='kan'||score<6?0:Math.random()*2|0];
+  $.innerHTML=`<div class="result pop"><span class="lbl">${cname}の結果</span>
+  <div class="stamp${score>=8?' good':''}"><div>${score}<span style="font-size:22px">/${N}</span></div><small>${isBest?'自己ベスト':'正解'}</small></div>
+  <h2 class="rank">${r[1]}</h2><p class="rank-sub">${r[2]}${S.maxCombo>=3?`<br>最大${S.maxCombo}問連続正解!`:''}</p>
+  <div class="btns"><button class="btn" id="again">もう1回</button><a class="btn x" href="${share}" target="_blank" rel="noopener">Xで結果をシェア</a></div>
+  <button class="btn wide" id="home">ほかの資格を選ぶ</button>
+  ${miss.length?`<div class="miss"><h2>まちがえた問題の見直し</h2><ul>${miss.map(q=>`<li><b>${q.q}</b>答え:${q.a}。${q.e}</li>`).join('')}</ul></div>`:''}
+  </div>
+  <a class="book" href="${book.u}" target="_blank" rel="noopener"><span class="cv">${book.v}</span><span><span class="lbl">現場の話は本でも</span><b>${book.t}</b><small>${book.s}</small><span class="go">Amazonで見る →</span></span></a>
+  <div class="foot">作:ゆっぴー(現場12年のビルメン)・<a href="https://x.com/yukkori0402" target="_blank" rel="noopener">X @yukkori0402</a></div>`;
+  document.getElementById('again').onclick=()=>start(S.id);
+  document.getElementById('home').onclick=home;
+  window.scrollTo(0,0);
+  if(score>=8)confetti();
+}
+home();
+</script>
