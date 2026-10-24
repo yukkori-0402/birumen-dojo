@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ja">
-<head>
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-L0L02TYHQ4"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-L0L02TYHQ4');</script>
 <meta charset="utf-8">
 <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="canonical" href="https://yukkori-0402.github.io/birumen-dojo/"><meta name="description" content="電工二種・ボイラー2級・ビル管理士・電験三種の過去問を、解説つきで無料で練習できるアプリ。登録なし・スマホで使えます。現場12年のビルメンが作りました。"><meta property="og:type" content="website"><meta property="og:site_name" content="ビルメン資格道場"><meta property="og:title" content="ビルメン資格道場"><meta property="og:description" content="電工二種・ボイラー2級・ビル管理士・電験三種の過去問を、解説つきで無料で練習できるアプリ。登録なし・スマホで使えます。現場12年のビルメンが作りました。"><meta property="og:url" content="https://yukkori-0402.github.io/birumen-dojo/"><meta property="og:image" content="https://yukkori-0402.github.io/birumen-dojo/ogp/home.png"><meta property="og:locale" content="ja_JP"><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="mg-_6vSY9gcKsE_2YwxbJlUSdru6BfEOnelhwgYn-RE"><title>ビルメン資格道場</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -253,6 +253,12 @@ const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random(
 const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let S=null;
 
+// 内部アプリへの移動だけを記録。URLや自由入力は送らない。
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a.app,a.next-app');
+  const index=a?APPS.findIndex(x=>x.href===a.getAttribute('href')):-1;
+  if(index>=0){window.gtag && window.gtag('event','app_open',{app_name:['denko','boiler','kan','denken'][index],link_location:a.classList.contains('app')?'home':'mini_result',transport_type:'beacon'});}
+});
 function home(){
   const best=store.get('best')||{};
   const row=(id,c,cls='')=>`<button class="stage ${cls}" data-c="${id}" style="--c:${c.c}"><span class="ic">${c.ic}</span><span><b>${c.short}</b><small>${c.desc}</small><small class="cnt">全${c.qs.length}問から${N}問</small>${c.lv?`<span class="diff"><span class="stars" aria-label="難易度${c.lv}(5段階)">${'★'.repeat(c.lv)}<i>${'★'.repeat(5-c.lv)}</i></span>合格率 ${c.rate}</span>`:''}</span><span class="hi"><span>自己ベスト</span><strong>${best[id]!=null?best[id]+'/'+N:'--'}</strong></span></button>`;
@@ -264,7 +270,7 @@ function home(){
   <p class="origin">ここの問題は、作者がAI(Claude)を使って作ったオリジナル問題です。試験の過去問ではありません。</p>
   <div class="stages">${Object.entries(COURSES).map(([id,c])=>row(id,c)).join('')}${row('mix',{ic:'混',c:'var(--mix)',short:'ごちゃまぜ',desc:'4つの資格からランダムに出題',qs:Object.values(COURSES).flatMap(c=>c.qs)},'mix')}</div>
   <p class="note">※ 難易度は、試験の合格率をもとにした目安です(5段階)。合格率は電気技術者試験センター、安全衛生技術試験協会、厚生労働省の公表値から計算しました。<br>※ ミニクイズの問題は、AI(Claude)を使って作ったオリジナル問題です。数値は、法令の原文(e-Gov法令検索)、経済産業省「電気設備の技術基準の解釈」、各試験の公式問題と正答で確かめています(2026年10月時点)。法令は改正されることがあるので、試験の前には最新の情報も確認してください。</p></div>
-  <div class="foot">作:ゆっぴー(現場12年のビルメン)・<a href="https://x.com/yukkori0402" target="_blank" rel="noopener">X @yukkori0402</a><br><a href="https://docs.google.com/forms/d/e/1FAIpQLSe276M-LG0Cp4LfWRQjniNyPuPMMWwof0zu7qpM41ThlVlHqQ/viewform" target="_blank" rel="noopener">間違いの報告・ご意見はこちら</a></div>`;
+  <div class="foot"><div class="ga-notice" style="font-size:11px;line-height:1.8;color:inherit;margin-top:8px">このサイトはアクセス数を知るためにGoogleアナリティクス(クッキーを使用)を使っています。集めるのは匿名の閲覧データだけです。</div>作:ゆっぴー(現場12年のビルメン)・<a href="https://x.com/yukkori0402" target="_blank" rel="noopener">X @yukkori0402</a><br><a href="https://docs.google.com/forms/d/e/1FAIpQLSe276M-LG0Cp4LfWRQjniNyPuPMMWwof0zu7qpM41ThlVlHqQ/viewform" target="_blank" rel="noopener">間違いの報告・ご意見はこちら</a></div>`;
   $.querySelectorAll('.stage').forEach(b=>b.onclick=()=>start(b.dataset.c));
   window.scrollTo(0,0);
 }
@@ -333,11 +339,12 @@ function result(){
   </div>
   ${app?`<a class="next-app" href="${app.href}" style="--c:${app.c}"><span class="ai">${app.ic}</span><span><span class="lbl">次は本番の過去問で</span><b>${app.name}の過去問 ${app.n}問</b><small>${app.d}</small></span><span class="go">→</span></a>`:`<a class="next-app" href="#" id="toapps" style="--c:var(--kan)"><span class="ai">道</span><span><span class="lbl">次は本番の過去問で</span><b>4つの過去問アプリを見る</b><small>電工二種・ボイラー2級・ビル管・電験三種</small></span><span class="go">→</span></a>`}
   <a class="book" href="${book.u}" target="_blank" rel="noopener"><span class="cv">${book.v}</span><span><span class="lbl">現場の話は本でも</span><b>${book.t}</b><small>${book.s}</small><span class="go">Amazonで見る →</span></span></a>
-  <div class="foot">作:ゆっぴー(現場12年のビルメン)・<a href="https://x.com/yukkori0402" target="_blank" rel="noopener">X @yukkori0402</a><br><a href="https://docs.google.com/forms/d/e/1FAIpQLSe276M-LG0Cp4LfWRQjniNyPuPMMWwof0zu7qpM41ThlVlHqQ/viewform" target="_blank" rel="noopener">間違いの報告・ご意見はこちら</a></div>`;
+  <div class="foot"><div class="ga-notice" style="font-size:11px;line-height:1.8;color:inherit;margin-top:8px">このサイトはアクセス数を知るためにGoogleアナリティクス(クッキーを使用)を使っています。集めるのは匿名の閲覧データだけです。</div>作:ゆっぴー(現場12年のビルメン)・<a href="https://x.com/yukkori0402" target="_blank" rel="noopener">X @yukkori0402</a><br><a href="https://docs.google.com/forms/d/e/1FAIpQLSe276M-LG0Cp4LfWRQjniNyPuPMMWwof0zu7qpM41ThlVlHqQ/viewform" target="_blank" rel="noopener">間違いの報告・ご意見はこちら</a></div>`;
   document.getElementById('again').onclick=()=>start(S.id);
   const ta=document.getElementById('toapps');if(ta)ta.onclick=e=>{e.preventDefault();home();};
   document.getElementById('home').onclick=home;
   window.scrollTo(0,0);
+  if(!S.analyticsFinished){S.analyticsFinished=true;window.gtag && window.gtag('event','mini_quiz_finish',{app_name:'dojo',quiz_mode:'mini',quiz_scope:S.id,question_count:N,correct_count:score,accuracy:Math.round(score/N*100)});}
   if(score>=8)confetti();
 }
 home();
