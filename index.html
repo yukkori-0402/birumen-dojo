@@ -151,6 +151,7 @@ canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-in
 .pop{animation:pop .25s ease-out}@keyframes pop{from{transform:translateY(4px);opacity:.4}to{transform:none;opacity:1}}
 @media (max-width:420px){.apps{gap:10px}.app{padding:14px 13px 12px}.app .n{font-size:22px}.stage{grid-template-columns:46px 1fr auto;gap:12px}.stage .ic{width:46px;height:46px;font-size:19px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.full{font-size:.72rem;opacity:.75;line-height:1.35;margin:.1rem 0 .15rem}
 </style>
 </head>
 <body>
@@ -194,7 +195,7 @@ const COURSES={
   ["理想的なコンデンサだけの交流回路で、電流は電圧よりどうずれる?",["90°進む","90°遅れる","ずれない","180°ずれる"],"コンデンサだけなら電流は電圧より4分の1周期、つまり90°進みます。"],
   ["抵抗値を、消費電力Pと電流Iから求める式は?",["R＝P÷I²","R＝P×I²","R＝I²÷P","R＝P÷I"],"電力の式P＝I²Rを変形すると、R＝P÷I²です。電流は2乗してから割ります。"],
  ]},
- boiler:{name:'2級ボイラー技士',short:'ボイラー2級',ic:'缶',c:'var(--boiler)',lv:2,rate:'約54%(2024年度)',desc:'構造・取扱い・燃焼・法令',qs:[
+ boiler:{name:'二級ボイラー技士',short:'ボイラー2級',ic:'缶',c:'var(--boiler)',lv:2,rate:'約54%(2024年度)',desc:'構造・取扱い・燃焼・法令',qs:[
   ['燃料を燃やすときの「空気比」の求め方は?',['実際空気量÷理論空気量','理論空気量÷実際空気量','実際空気量−理論空気量','理論空気量×実際空気量'],'実際に送りこんだ空気が、理論上ちょうど必要な量の何倍かを表します。'],
   ['管の壁などに、硬くこびりついた付着物を何という?',['スケール','スラッジ','すす','ダスト'],'底にたまる軟らかい沈殿物はスラッジ、燃焼ガス側につくのはすすです。'],
   ['二色水面計で、水の部分は何色に見える?',['緑(または青)','赤','黄','白'],'水の部分は緑(青)、蒸気の部分は赤に見えます。'],
@@ -226,7 +227,7 @@ const COURSES={
   ["燃料と空気を別々に送り、混ざりながら燃やす方式は?",["拡散燃焼","予混合燃焼","表面燃焼だけ","自己蒸発"],"拡散燃焼では燃料と空気が混ざる過程で燃えます。先に混ぜてから送る予混合燃焼と区別します。"],
   ["燃焼温度が高すぎると、一般に増えやすい大気汚染物質は?",["窒素酸化物(NOx)","酸素","ヘリウム","アルゴン"],"窒素酸化物は高い燃焼温度で増えやすくなります。温度を上げるだけでは抑制策になりません。"],
  ]},
- kan:{name:'ビル管理士(建築物環境衛生管理技術者)',short:'ビル管',ic:'管',c:'var(--kan)',lv:3,rate:'約31%(2025年度。例年は20%台)',desc:'空気環境・水・清掃の基準',qs:[
+ kan:{name:'建築物環境衛生管理技術者(ビル管理士)',short:'ビル管',ic:'管',c:'var(--kan)',lv:3,rate:'約31%(2025年度。例年は20%台)',desc:'空気環境・水・清掃の基準',qs:[
   ['特定建築物の空気の二酸化炭素の基準は?',['1,000ppm以下','100ppm以下','5,000ppm以下','10ppm以下'],'0.1%(1,000ppm)以下が基準です。人が多い部屋ほど上がりやすくなります。'],
   ['一酸化炭素の基準は?(2022年4月から)',['6ppm以下','10ppm以下','50ppm以下','1,000ppm以下'],'2022年4月に10ppm以下から6ppm以下へ厳しくなりました。'],
   ['室内の温度の基準は?(2022年4月から)',['18℃以上28℃以下','17℃以上28℃以下','20℃以上26℃以下','15℃以上30℃以下'],'下限が17℃から18℃に変わりました。'],
@@ -317,11 +318,11 @@ document.addEventListener('click',e=>{
 });
 function home(){
   const best=store.get('best')||{};
-  const row=(id,c,cls='')=>`<button class="stage ${cls}" data-c="${id}" style="--c:${c.c}"><span class="ic">${c.ic}</span><span><b>${c.short}</b><small>${c.desc}</small><small class="cnt">全${c.qs.length}問から${N}問</small>${c.lv?`<span class="diff"><span class="stars" aria-label="難易度${c.lv}(5段階)">${'★'.repeat(c.lv)}<i>${'★'.repeat(5-c.lv)}</i></span>合格率 ${c.rate}</span>`:''}</span><span class="hi"><span>自己ベスト</span><strong>${best[id]!=null?best[id]+'/'+N:'--'}</strong></span></button>`;
+  const row=(id,c,cls='')=>`<button class="stage ${cls}" data-c="${id}" style="--c:${c.c}"><span class="ic">${c.ic}</span><span><b>${c.short}</b>${c.name?`<small class="full">${c.name}</small>`:''}<small>${c.desc}</small><small class="cnt">全${c.qs.length}問から${N}問</small>${c.lv?`<span class="diff"><span class="stars" aria-label="難易度${c.lv}(5段階)">${'★'.repeat(c.lv)}<i>${'★'.repeat(5-c.lv)}</i></span>合格率 ${c.rate}</span>`:''}</span><span class="hi"><span>自己ベスト</span><strong>${best[id]!=null?best[id]+'/'+N:'--'}</strong></span></button>`;
   $.innerHTML=`<div class="pop">
   <section class="hero"><span class="lbl">無料・登録なし・スマホで使える</span><h1><small>現場12年のビルメンが作った</small>ビルメン資格道場</h1><p>電工二種・ボイラー2級・ビル管・電験三種の過去問を、解説つきで練習できます。</p><div class="chips"><span class="chip"><b>4</b>資格</span><span class="chip">過去問<b>3,039</b>問</span><span class="chip">腕だめし<b>${Object.values(COURSES).reduce((n,c)=>n+c.qs.length,0)}</b>問</span></div></section>
   <div class="sec"><h2>過去問で本格的に練習</h2><span class="lbl">解説・模擬試験つき</span></div>
-  <div class="apps">${APPS.map(a=>`<a class="app" href="${a.href}" style="--c:${a.c}"><span class="ai">${a.ic}</span><b>${a.name}</b><span class="n">${a.n}<small>問</small></span><small>${a.d}</small><span class="go">はじめる →</span></a>`).join('')}</div>
+  <div class="apps">${APPS.map((a,i)=>`<a class="app" href="${a.href}" style="--c:${a.c}"><span class="ai">${a.ic}</span><b>${a.name}</b><small class="full">${Object.values(COURSES)[i].name}</small><span class="n">${a.n}<small>問</small></span><small>${a.d}</small><span class="go">はじめる →</span></a>`).join('')}</div>
   <div class="sec mt"><h2>まずは4択10問で腕だめし</h2><span class="lbl">ランダムに10問</span></div>
   <p class="origin">ここの問題は、作者がAI(Claude・ChatGPT)を使って作ったオリジナル問題です。試験の過去問ではありません。</p>
   <div class="stages">${Object.entries(COURSES).map(([id,c])=>row(id,c)).join('')}${row('mix',{ic:'混',c:'var(--mix)',short:'ごちゃまぜ',desc:'4つの資格からランダムに出題',qs:Object.values(COURSES).flatMap(c=>c.qs)},'mix')}</div>
