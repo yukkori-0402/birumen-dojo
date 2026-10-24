@@ -2,19 +2,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#e8e5de" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15191e" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Nunito:wght@700;800;900&display=swap">
 <style>
 /* 白基調のシンプルなデザイン。資格ごとの色は、それぞれの過去問アプリと同じ */
 :root{
-  color-scheme:light;
-  --bg:#f5f8fa; --paper:#fff; --ink:#1d2b33; --sub:#6b7a83; --line:#e2e8ec; --line2:#cdd7dd; --soft:#eef3f6;
+  color-scheme:light dark;
+  --bg:#e8e5de; --paper:#f3f0e9; --ink:#2a2f33; --sub:#6f716c; --line:#dad5ca; --line2:#c9c3b6; --soft:#e4dfd4;
   --den:#16b37e; --boiler:#f07818; --kan:#10a5d6; --denken:#3556b8; --mix:#8b5cf6;
   --ok:#16b37e; --ng:#e5484d; --gold:#f5b301;
   --f-num:"Nunito","M PLUS Rounded 1c",sans-serif;
   --f-body:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
-  --shadow:0 1px 2px rgba(29,43,51,.06),0 6px 20px rgba(29,43,51,.06);
+  --shadow:0 1px 2px rgba(60,50,30,.06),0 6px 18px rgba(60,50,30,.06);
 }
+/* スマホがダークモードのときは、落ち着いた墨色に */
+@media (prefers-color-scheme:dark){:root{
+  --bg:#15191e; --paper:#1e242b; --ink:#e6ebee; --sub:#97a3ac; --line:#2c343c; --line2:#3b4550; --soft:#272e36;
+  --kan:#2bb5e3; --denken:#7b97f0; --mix:#a78bfa;
+  --shadow:0 1px 0 rgba(255,255,255,.03);
+}}
 *{box-sizing:border-box}
 html{background:var(--bg)}
 body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
@@ -43,7 +51,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--kan);outline-offset
 .apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .app{--c:var(--kan);position:relative;display:grid;gap:2px;align-content:start;padding:16px 16px 14px;border-radius:20px;background:var(--paper);box-shadow:var(--shadow);color:var(--ink);text-decoration:none;min-width:0;border:2px solid transparent;transition:transform .12s,border-color .12s}
 .app:hover{border-color:color-mix(in srgb,var(--c) 40%,transparent);transform:translateY(-2px)}
-.app .ai{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:900;font-size:19px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,#fff);margin-bottom:8px}
+.app .ai{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:900;font-size:19px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,var(--paper));margin-bottom:8px}
 .app b{font-size:15.5px;line-height:1.4}
 .app .n{font-family:var(--f-num);font-size:26px;font-weight:900;color:var(--c);line-height:1.25}
 .app .n small{font-family:var(--f-body);font-size:13px;margin-left:2px;color:var(--c)}
@@ -54,7 +62,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--kan);outline-offset
 .stage{--c:var(--kan);position:relative;display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;width:100%;padding:14px;text-align:left;border:2px solid transparent;border-radius:20px;background:var(--paper);box-shadow:var(--shadow);transition:transform .12s,border-color .12s}
 .stage:hover{border-color:color-mix(in srgb,var(--c) 40%,transparent)}
 .stage:active{transform:scale(.99)}
-.stage .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-weight:900;font-size:22px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,#fff)}
+.stage .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-weight:900;font-size:22px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,var(--paper))}
 .stage b{display:block;font-size:16.5px;line-height:1.35}
 .stage small{display:block;color:var(--sub);font-size:12.5px;line-height:1.5;margin-top:2px}
 .stage .cnt{color:var(--c);font-weight:800}
@@ -83,15 +91,15 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--kan);outline-offset
 .qcard{position:relative;padding:22px 18px 18px;border-radius:24px;background:var(--paper);box-shadow:var(--shadow)}
 .qno{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .qno .disp{font-size:15px;color:var(--sub)}
-.tag{font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px;color:var(--c,var(--kan));background:color-mix(in srgb,var(--c,var(--kan)) 13%,#fff)}
+.tag{font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px;color:var(--c,var(--kan));background:color-mix(in srgb,var(--c,var(--kan)) 13%,var(--paper))}
 .q{font-size:18px;font-weight:800;line-height:1.65;margin:0 0 16px}
 .opts{display:grid;gap:10px}
 .opt{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:12px 14px;border-radius:16px;border:2px solid var(--line);background:var(--paper);font-size:16px;font-weight:500;min-height:56px;transition:transform .08s,border-color .12s,background .12s}
-.opt:hover:not(:disabled){border-color:var(--line2);background:#fafcfd}
+.opt:hover:not(:disabled){border-color:var(--line2);background:var(--soft)}
 .opt:active:not(:disabled){transform:scale(.99)}
 .opt .k{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--soft);font-family:var(--f-num);font-weight:900;font-size:15px;color:var(--sub)}
-.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 9%,#fff)}.opt.ok .k{background:var(--ok);color:#fff}
-.opt.ng{border-color:var(--ng);background:color-mix(in srgb,var(--ng) 8%,#fff)}.opt.ng .k{background:var(--ng);color:#fff}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 9%,var(--paper))}.opt.ok .k{background:var(--ok);color:#fff}
+.opt.ng{border-color:var(--ng);background:color-mix(in srgb,var(--ng) 8%,var(--paper))}.opt.ng .k{background:var(--ng);color:#fff}
 .opt:disabled{cursor:default}.opt.dim{opacity:.45}
 .shake{animation:shake .4s}
 @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
@@ -103,7 +111,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--kan);outline-offset
 .exp{margin-top:16px;padding:14px 16px;border-radius:16px;background:var(--soft);font-size:15px}
 .exp .r{font-weight:900;font-size:19px;margin-bottom:4px}
 .exp .r.ok{color:var(--ok)}.exp .r.ng{color:var(--ng)}
-.next{display:block;width:100%;margin-top:14px;padding:15px;border:none;border-radius:16px;background:var(--ink);color:#fff;font-weight:800;font-size:17px}
+.next{display:block;width:100%;margin-top:14px;padding:15px;border:none;border-radius:16px;background:var(--ink);color:var(--paper);font-weight:800;font-size:17px}
 .next:active{transform:scale(.99)}
 
 /* 結果 */
@@ -119,7 +127,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--kan);outline-offset
 .rank-sub{color:var(--sub);margin:0 0 16px;font-size:14px}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn{padding:13px;border-radius:16px;border:2px solid var(--line);background:var(--paper);font-weight:800;text-decoration:none;color:var(--ink);text-align:center;font-size:15px}
-.btn.x{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.x{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .btn.wide{width:100%;margin-top:10px}
 .miss{margin-top:22px;text-align:left}
 .miss h2{font-size:16px;margin-bottom:8px}
