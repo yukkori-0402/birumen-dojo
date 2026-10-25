@@ -1,0 +1,34 @@
+:root{--g:#16b37e;--gd:#0f8a60;--ink:#1f2a24;--sub:#5b6a62;--bg:#f3f6f2;--card:#fff;--line:#e2e9e4;--soft:#e7f6ef}
+@media (prefers-color-scheme:dark){:root{--ink:#e6efe9;--sub:#a3b3aa;--bg:#141a17;--card:#1d2521;--line:#2c3732;--soft:#1f3329}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;line-height:1.8;font-size:16px}
+a{color:var(--gd)}@media (prefers-color-scheme:dark){a{color:#5fd6a6}}
+header.top{background:var(--g);color:#fff;padding:10px 16px}
+header.top a{color:#fff;text-decoration:none;font-weight:700}
+main{max-width:760px;margin:0 auto;padding:16px}
+.crumb{font-size:13px;color:var(--sub);margin:4px 0 10px}
+.crumb a{color:var(--sub)}
+h1{font-size:22px;line-height:1.5;margin:6px 0 14px}
+h2{font-size:18px;margin:26px 0 10px;padding-left:10px;border-left:5px solid var(--g)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+.tag{display:inline-block;background:var(--soft);color:var(--gd);border-radius:999px;padding:2px 12px;font-size:13px;font-weight:700}
+@media (prefers-color-scheme:dark){.tag{color:#5fd6a6}}
+.qimg{display:block;width:100%;height:auto;border-radius:8px;background:#fff}
+.note{font-size:13px;color:var(--sub)}
+ol.choices{list-style:none;padding:0;margin:8px 0 0}
+ol.choices li{padding:6px 0;border-top:1px dashed var(--line)}
+ol.choices b{color:var(--gd);margin-right:6px}
+details{background:var(--card);border:2px solid var(--g);border-radius:14px;padding:12px 16px;margin:16px 0}
+summary{cursor:pointer;font-weight:800;color:var(--gd)}
+.ans{font-size:20px;font-weight:800;margin:10px 0 4px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.btn{flex:1 1 140px;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-decoration:none;font-weight:700}
+.btn.main{background:var(--g);color:#fff;border-color:var(--g)}
+table.list{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden}
+table.list td{border-top:1px solid var(--line);padding:8px 10px;vertical-align:top;font-size:15px}
+table.list td.n{white-space:nowrap;font-weight:800;width:4.5em}
+table.list td.c{white-space:nowrap;color:var(--sub);font-size:13px;width:6.5em}
+ul.exams{list-style:none;padding:0}
+ul.exams li{margin:8px 0}
+ul.exams a{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;text-decoration:none;font-weight:700}
+footer{max-width:760px;margin:24px auto 0;padding:16px;font-size:12px;color:var(--sub);line-height:1.9}
