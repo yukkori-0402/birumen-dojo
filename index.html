@@ -302,6 +302,7 @@ const APPS=[
 const RANKS=[[10,'名人ビルメン','満点です。現場で頼られる知識です。'],[8,'ベテランビルメン','あと少しで名人です。'],[6,'一人前ビルメン','合格ラインが見えてきました。'],[4,'新人ビルメン','解説を読んで、もう1回どうぞ。'],[0,'見習いビルメン','最初はみんなここからです。']];
 const BOOKS=[
  {t:'新人ビルメンの教科書',s:'空調・給排水・電気・消防。設備ごとの見方と異常のサインを、現場12年の目線でまとめた実用編。',u:'https://www.amazon.co.jp/dp/B0HN65Y84V',v:'実用編'},
+ {t:'新人ビルメンのトラブル対応',s:'断水・漏水・停電・「暑い」の電話。トラブルが起きたときにどう動くかを、実際の出来事からまとめた対応編。',u:'https://www.amazon.co.jp/dp/B0HP6XXZ9D',v:'トラブル編'},
  {t:'ビルメン、楽じゃなかった。',s:'「楽な仕事」と聞いて入った人に、現場の本当のところを。夜勤・呼び出し・資格のこと。',u:'https://www.amazon.co.jp/dp/B0HMXYLK1D',v:'体験編'}
 ];
 const N=10, $=document.getElementById('app');
@@ -386,7 +387,7 @@ function result(){
   const miss=S.qs.filter((_,k)=>!S.res[k]);
   const share='https://x.com/intent/post?text='+encodeURIComponent(`ビルメン資格道場【${cname}】で${N}問中${score}問正解!称号は「${r[1]}」でした。\n#ビルメン #資格勉強\n`)+'&url='+encodeURIComponent(location.href.startsWith('http')?location.href:'');
   const app=APPS[{den:0,boiler:1,kan:2,denken:3}[S.id]];
-  const book=BOOKS[S.id==='kan'||score<6?0:Math.random()*2|0];
+  const book=BOOKS[S.id==='kan'||score<6?0:Math.random()*BOOKS.length|0];
   $.innerHTML=`<div class="result pop"><span class="lbl">${cname}の結果</span>
   <div class="stamp${score>=8?' good':''}" style="--p:${score*10}"><div>${score}<span style="font-size:22px">/${N}</span></div><small>${isBest?'自己ベスト':'正解'}</small></div>
   <h2 class="rank">${r[1]}</h2><p class="rank-sub">${r[2]}${S.maxCombo>=3?`<br>最大${S.maxCombo}問連続正解!`:''}</p>
